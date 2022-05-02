@@ -117,7 +117,7 @@ public class Main extends Application {
 		VBox.setMargin(forward , new Insets(-35, 90, 10, 60));
 		VBox.setMargin(reload , new Insets(-35, 90, 10, 130));
 		VBox.setMargin(bookmark , new Insets(-35 , 90 , 10 , 850));
-		VBox.setMargin(fav ,  new Insets(-35 , 90 , 10 , 800));
+		VBox.setMargin(fav ,  new Insets(-35 , 90 , 10 , 810));
 
 		root.getChildren().addAll(urlBar , back, forward , reload , fav , bookmark , myWebView);
 
