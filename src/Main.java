@@ -1,3 +1,15 @@
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -30,7 +42,8 @@ public class Main extends Application {
 
 
 	@Override
-	public void start(Stage stage) throws Exception {
+	public void start(Stage stage) throws Exception 
+	{
 		WebView myWebView = new WebView();
 		WebEngine engine = myWebView.getEngine();
 
@@ -40,12 +53,14 @@ public class Main extends Application {
 		engine.load(homePage);
 		urlBar.setText(homePage);
 
+		
+
 		Image bookmarkIcon = new Image(getClass().getResource("star.png").toExternalForm(), 20, 17, true, true);
 		Image backIcon = new Image(getClass().getResource("back.png").toExternalForm(), 20, 17, true, true);
 		Image fwIcon = new Image(getClass().getResource("forward.png").toExternalForm(), 20, 17, true, true);
 		Image reloadIcon = new Image(getClass().getResource("reload.png").toExternalForm(), 20, 17, true, true);
 
-		urlBar.textProperty().bind(engine.locationProperty()); // for detecting URL change - work perfectly but unable to type in url.
+		//urlBar.textProperty().bind(engine.locationProperty()); // for detecting URL change - work perfectly but unable to type in url.
 
 		urlBar.setOnAction(e -> {
 			engine.load("http://"+urlBar.getText());
@@ -54,6 +69,43 @@ public class Main extends Application {
 
 		MenuButton bookmark = new MenuButton("Bookmarks");
 		Button fav = new Button("");
+
+		/* try (ObjectInputStream input = new ObjectInputStream(new BufferedInputStream(new FileInputStream("bookmarkPage.dat")))) 
+		 {
+			
+
+			MenuItem bookmarkName = new MenuItem(input.readObject().toString()); 
+			bookmark.getItems().add(bookmarkName);
+            
+         } */
+
+
+		 try  
+		 {  
+		 	File file = new File("bookmarkPage.dat");    //creates a new file instance  
+		 	FileReader fr = new FileReader(file);   //reads the file  
+		 	BufferedReader br=new BufferedReader(fr);  //creates a buffering character input stream  
+		 	StringBuffer sb=new StringBuffer();    //constructs a string buffer with no characters  
+		 	String line;  
+		 while((line=br.readLine())!=null)  
+		 {  
+			MenuItem bookmarkName = new MenuItem(line);
+			bookmark.getItems().add(bookmarkName);
+		 }  
+		 fr.close(); 
+		} catch(IOException e)  
+		{  
+				e.printStackTrace();  
+		}  
+
+
+
+
+
+
+
+
+
 		
 		fav.setGraphic(new ImageView(bookmarkIcon));
 		fav.setOnAction(new EventHandler<ActionEvent>() {
@@ -63,6 +115,22 @@ public class Main extends Application {
 			{
 				MenuItem bookmarkName = new MenuItem(urlBar.getText()); 
 				bookmark.getItems().add(bookmarkName);					// add bookmark page to drop down menu
+
+
+
+			 try (ObjectOutputStream output = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("bookmarkPage.dat")))) 
+			{
+         			output.writeObject(urlBar.getText());
+         			
+      		} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+
+
+
+
+
 
 				bookmarkName.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
