@@ -1,15 +1,7 @@
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-
+import java.util.Scanner;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,6 +28,7 @@ public class Main extends Application {
 
 	private String homePage;
 	private WebHistory history;
+	static MenuButton bookmark = new MenuButton("Bookmarks");
 	//private String bookmarkName;
 	
 
@@ -46,12 +38,15 @@ public class Main extends Application {
 	{
 		WebView myWebView = new WebView();
 		WebEngine engine = myWebView.getEngine();
+		
 
 		TextField urlBar = new TextField();
 		urlBar.setPrefWidth(300.00);
 		homePage = "https://www.google.com";
 		engine.load(homePage);
 		urlBar.setText(homePage);
+
+		LoadFav();
 
 		
 
@@ -60,53 +55,19 @@ public class Main extends Application {
 		Image fwIcon = new Image(getClass().getResource("forward.png").toExternalForm(), 20, 17, true, true);
 		Image reloadIcon = new Image(getClass().getResource("reload.png").toExternalForm(), 20, 17, true, true);
 
-		//urlBar.textProperty().bind(engine.locationProperty()); // for detecting URL change - work perfectly but unable to type in url.
-
 		urlBar.setOnAction(e -> {
 			engine.load("http://"+urlBar.getText());
 			});
 
-
-		MenuButton bookmark = new MenuButton("Bookmarks");
-		Button fav = new Button("");
-
-		/* try (ObjectInputStream input = new ObjectInputStream(new BufferedInputStream(new FileInputStream("bookmarkPage.dat")))) 
-		 {
-			
-
-			MenuItem bookmarkName = new MenuItem(input.readObject().toString()); 
-			bookmark.getItems().add(bookmarkName);
-            
-         } */
-
-
-		 try  
-		 {  
-		 	File file = new File("bookmarkPage.dat");    //creates a new file instance  
-		 	FileReader fr = new FileReader(file);   //reads the file  
-		 	BufferedReader br=new BufferedReader(fr);  //creates a buffering character input stream  
-		 	StringBuffer sb=new StringBuffer();    //constructs a string buffer with no characters  
-		 	String line;  
-		 while((line=br.readLine())!=null)  
-		 {  
-			MenuItem bookmarkName = new MenuItem(line);
-			bookmark.getItems().add(bookmarkName);
-		 }  
-		 fr.close(); 
-		} catch(IOException e)  
-		{  
-				e.printStackTrace();  
-		}  
-
-
-
-
-
-
-
-
+		//urlBar.textProperty().bind(engine.locationProperty()); // for detecting URL change - work perfectly but unable to type in url.
 
 		
+
+		
+
+
+		//MenuButton bookmark = new MenuButton("Bookmarks");
+		Button fav = new Button("");
 		fav.setGraphic(new ImageView(bookmarkIcon));
 		fav.setOnAction(new EventHandler<ActionEvent>() {
 			
@@ -115,21 +76,14 @@ public class Main extends Application {
 			{
 				MenuItem bookmarkName = new MenuItem(urlBar.getText()); 
 				bookmark.getItems().add(bookmarkName);					// add bookmark page to drop down menu
-
-
-
-			 try (ObjectOutputStream output = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("bookmarkPage.dat")))) 
-			{
-         			output.writeObject(urlBar.getText());
-         			
-      		} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
-
-
-
-
+				
+				
+				try {
+					Fav(urlBar.getText());
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 
 				bookmarkName.setOnAction(new EventHandler<ActionEvent>() {
@@ -222,6 +176,53 @@ public class Main extends Application {
 		stage.setScene(scene);
 		
 		stage.show();
+	}
+
+
+
+	public static void Fav(String bookmarkURL) throws FileNotFoundException
+	{
+	
+		File file = new File("bookmarkPage.txt");
+
+		if (file.exists()) 
+        {
+			System.out.println("File already exists");
+			//System.exit(0);
+		}
+		try 
+		(
+	
+			PrintWriter output = new PrintWriter(file);
+		) 
+        {
+			
+			output.println(bookmarkURL);
+		}
+	}
+
+	public static void LoadFav() throws FileNotFoundException
+	{
+		try 
+		{
+            File myFile = new File("bookmarkPage.txt");
+			Scanner input = new Scanner(myFile);
+            
+			while (input.hasNext()) 
+            {
+				String line = (input.nextLine());
+				MenuItem bookmarkName = new MenuItem(line); 
+				bookmark.getItems().add(bookmarkName);
+
+
+			}
+            input.close();
+		}
+		catch (FileNotFoundException e) 
+		{
+			System.out.println("wrong file path!!!");
+			
+		}
 	}
 
 }
