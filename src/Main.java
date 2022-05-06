@@ -42,7 +42,7 @@ public class Main extends Application {
 
 		TextField urlBar = new TextField();
 		urlBar.setPrefWidth(300.00);
-		homePage = "https://www.google.com";
+		homePage = "https://www.duckduckgo.com";
 		engine.load(homePage);
 		urlBar.setText(homePage);
 
@@ -51,10 +51,10 @@ public class Main extends Application {
 		
 		
 
-		Image bookmarkIcon = new Image(getClass().getResource("images/user-bookmarks-symbolic.png").toExternalForm(), 20, 17, true, true);
-		Image backIcon = new Image(getClass().getResource("images/left-symbolic.png").toExternalForm(), 20, 17, true, true);
-		Image fwIcon = new Image(getClass().getResource("images/right-symbolic.png").toExternalForm(), 20, 17, true, true);
-		Image reloadIcon = new Image(getClass().getResource("images/refresh-symbolic.png").toExternalForm(), 20, 17, true, true);
+		Image bookmarkIcon = new Image(getClass().getResource("icons/user-bookmarks-symbolic.png").toExternalForm(), 20, 17, true, true);
+		Image backIcon = new Image(getClass().getResource("icons/left-symbolic.png").toExternalForm(), 20, 17, true, true);
+		Image fwIcon = new Image(getClass().getResource("icons/right-symbolic.png").toExternalForm(), 20, 17, true, true);
+		Image reloadIcon = new Image(getClass().getResource("icons/refresh-symbolic.png").toExternalForm(), 20, 17, true, true);
 
 		urlBar.setOnAction(e -> {
 			engine.load("http://"+urlBar.getText());
@@ -172,7 +172,7 @@ public class Main extends Application {
 	
 		
 		Scene scene = new Scene(root, 1080, 720);
-		stage.getIcons().add(new Image("images/LibreDog.png"));
+		stage.getIcons().add(new Image("icons/LibreDog.png"));
 		stage.setTitle("LibreDog");
 		stage.setScene(scene);
 		
