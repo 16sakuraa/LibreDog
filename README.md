@@ -23,6 +23,6 @@ On Linux:
 
 On Windows:
 
-![VMArgs-Linux](src/images/vmargs-linux.png)
+![VMArgs-Windows](src/images/vmargs-windows.png)
 
 4. Build the workspace and enjoy!
