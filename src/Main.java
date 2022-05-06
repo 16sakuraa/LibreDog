@@ -49,11 +49,12 @@ public class Main extends Application {
 		LoadFav();
 
 		
+		
 
-		Image bookmarkIcon = new Image(getClass().getResource("star.png").toExternalForm(), 20, 17, true, true);
-		Image backIcon = new Image(getClass().getResource("back.png").toExternalForm(), 20, 17, true, true);
-		Image fwIcon = new Image(getClass().getResource("forward.png").toExternalForm(), 20, 17, true, true);
-		Image reloadIcon = new Image(getClass().getResource("reload.png").toExternalForm(), 20, 17, true, true);
+		Image bookmarkIcon = new Image(getClass().getResource("images/user-bookmarks-symbolic.png").toExternalForm(), 20, 17, true, true);
+		Image backIcon = new Image(getClass().getResource("images/left-symbolic.png").toExternalForm(), 20, 17, true, true);
+		Image fwIcon = new Image(getClass().getResource("images/right-symbolic.png").toExternalForm(), 20, 17, true, true);
+		Image reloadIcon = new Image(getClass().getResource("images/refresh-symbolic.png").toExternalForm(), 20, 17, true, true);
 
 		urlBar.setOnAction(e -> {
 			engine.load("http://"+urlBar.getText());
@@ -171,8 +172,8 @@ public class Main extends Application {
 	
 		
 		Scene scene = new Scene(root, 1080, 720);
-		stage.getIcons().add(new Image("dog.png"));
-		stage.setTitle("Firedog");
+		stage.getIcons().add(new Image("images/LibreDog.png"));
+		stage.setTitle("LibreDog");
 		stage.setScene(scene);
 		
 		stage.show();
@@ -224,5 +225,8 @@ public class Main extends Application {
 			
 		}
 	}
+	
 
 }
+
+
