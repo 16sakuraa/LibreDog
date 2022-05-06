@@ -1,6 +1,6 @@
 ![Banner](src/images/banner.png)
 
-LibreDog is a web browser written in Java, utilizing the JavaFX platform. This browser is based on WebKit, that is a open source web browser engine that supports HTML5, JavaScript, CSS, DOM rendering and SVG graphics.
+LibreDog is a web browser written in Java, utilizing the JavaFX platform. The browser is based on WebKit, that is an open source web browser engine that supports HTML5, JavaScript, CSS, DOM rendering and SVG graphics.
 
 ## Building
 
