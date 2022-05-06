@@ -42,7 +42,7 @@ public class Main extends Application {
 
 		TextField urlBar = new TextField();
 		urlBar.setPrefWidth(300.00);
-		homePage = "www.duckduckgo.com";
+		homePage = "http://www.duckduckgo.com";
 		engine.load(homePage);
 		urlBar.setText(homePage);
 
@@ -59,19 +59,25 @@ public class Main extends Application {
 		urlBar.setOnAction(e -> {
 			if((urlBar.getText().substring(0,7)=="https://")||(urlBar.getText().substring(0,6)=="http://")){
 				engine.load(urlBar.getText());
+				urlBar.setText(urlBar.getText());
 			}
 			else if(urlBar.getText().substring(urlBar.getText().length()-4,urlBar.getText().length()).compareTo(".com")!=0){
 				engine.load("http://"+urlBar.getText()+".com");
+				urlBar.setText("http://"+urlBar.getText()+".com");
 			}
 			else{
 				engine.load("http://"+urlBar.getText());
+				urlBar.setText("http://"+urlBar.getText());
 			}
 			
 			});
 
 		//urlBar.textProperty().bind(engine.locationProperty()); // for detecting URL change - work perfectly but unable to type in url.
 
-		
+		myWebView.setOnMouseClicked(e -> {  //solution 1 :when mouse click url change
+			urlBar.textProperty().bind(engine.locationProperty());
+			urlBar.textProperty().unbindBidirectional(engine.locationProperty());;
+		});
 
 		
 
