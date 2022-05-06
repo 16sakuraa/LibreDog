@@ -5,7 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            //Tested on an x86_64-pc-linux-gnu
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "LibreDog1_ff36a1b0",
+            "vmArgs": "--module-path /Data/javafx-sdk-18.0.1/lib --add-modules=javafx.controls,javafx.fxml --add-modules=javafx.swing,javafx.graphics,javafx.fxml,javafx.media,javafx.web --add-reads javafx.graphics=ALL-UNNAMED --add-opens javafx.controls/com.sun.javafx.charts=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.css=ALL-UNNAMED --add-opens javafx.base/com.sun.javafx.runtime=ALL-UNNAMED"
+        },
+        {
             "type": "java",
             "name": "Launch Main",
             "request": "launch",
@@ -20,7 +27,6 @@
             "mainClass": "${file}"
         },
         {
-            //Tested on a windows-x64
             "type": "java",
             "name": "Launch Main",
             "request": "launch",
