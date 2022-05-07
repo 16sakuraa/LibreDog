@@ -28,7 +28,7 @@ public class Main extends Application {
 
 	private String homePage;
 	private WebHistory history;
-	static MenuButton bookmark = new MenuButton("Bookmarks");
+	static MenuButton bookmark = new MenuButton("");
 	//private String bookmarkName;
 	
 
@@ -47,11 +47,11 @@ public class Main extends Application {
 		urlBar.setText(homePage);
 
 		LoadFav();
-
 		
 		
 
-		Image bookmarkIcon = new Image(getClass().getResource("icons/user-bookmarks-symbolic.png").toExternalForm(), 20, 17, true, true);
+		Image bookmarkIcon = new Image(getClass().getResource("icons/bookmark-new-symbolic.png").toExternalForm(), 20, 17, true, true);
+		Image bookmarkMenuIcon = new Image(getClass().getResource("icons/user-bookmarks-symbolic.png").toExternalForm(), 20, 17, true, true);
 		Image backIcon = new Image(getClass().getResource("icons/left-symbolic.png").toExternalForm(), 20, 17, true, true);
 		Image fwIcon = new Image(getClass().getResource("icons/right-symbolic.png").toExternalForm(), 20, 17, true, true);
 		Image reloadIcon = new Image(getClass().getResource("icons/refresh-symbolic.png").toExternalForm(), 20, 17, true, true);
@@ -85,12 +85,14 @@ public class Main extends Application {
 		//MenuButton bookmark = new MenuButton("Bookmarks");
 		Button fav = new Button("");
 		fav.setGraphic(new ImageView(bookmarkIcon));
+		bookmark.setGraphic(new ImageView(bookmarkMenuIcon));// bookmark icon
+
 		fav.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) 
 			{
-				MenuItem bookmarkName = new MenuItem(urlBar.getText()); 
+				MenuItem bookmarkName = new MenuItem(urlBar.getText());
 				bookmark.getItems().add(bookmarkName);					// add bookmark page to drop down menu
 				
 				
@@ -172,24 +174,35 @@ public class Main extends Application {
 
 
 
-		VBox.setMargin(urlBar , new Insets(-55, 30, 30, 130));
+		VBox.setMargin(urlBar , new Insets(-56, 30, 30, 130));
 		VBox.setMargin(back , new Insets(10, 10, 10, 10));
-		VBox.setMargin(forward , new Insets(-35, 20, 30, 50));		// new button layout 
-		VBox.setMargin(reload , new Insets(-55, 20, 30, 90));
-		VBox.setMargin(bookmark , new Insets(-35 , 90 , 10 , 50));
-		VBox.setMargin(fav ,  new Insets(-25 , 90 , 10 , 10));
+		VBox.setMargin(forward , new Insets(-36, 20, 30, 50));		// new button layout 
+		VBox.setMargin(reload , new Insets(-56, 20, 30, 90));
 
-		
+		root.scaleYProperty();
 
 		//root.getChildren().addAll(urlBar , back, forward , reload , fav , bookmark , myWebView);
 		root.getChildren().addAll(back, forward , reload , urlBar, fav , bookmark , myWebView);
 
-	
 		
-		Scene scene = new Scene(root, 1080, 720);
+		
+		Scene scene = new Scene(root, 3840, 2160);// 1080 720
 		stage.getIcons().add(new Image("icons/LibreDog.png"));
 		stage.setTitle("LibreDog");
 		stage.setScene(scene);
+
+		stage.widthProperty().addListener((obs, oldVal, newVal) -> {  //rescale wifth when resize window
+
+			VBox.setMargin(bookmark , new Insets(-37 , 90 , 10 , stage.widthProperty().doubleValue()-70));  // button layout 
+			VBox.setMargin(fav ,  new Insets(-56 , 90 , 10 , stage.widthProperty().doubleValue()-120));
+			urlBar.setMaxWidth(stage.widthProperty().doubleValue()-260);	// urlBar layout 
+
+		});
+		stage.heightProperty().addListener((obs, oldVal, newVal) -> {  //rescale height when resize window
+
+			myWebView.setMinHeight(stage.heightProperty().doubleValue()-100);
+
+		});
 		
 		stage.show();
 	}
