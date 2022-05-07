@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import javafx.application.Application;
@@ -31,7 +32,7 @@ public class Main extends Application {
 	static MenuButton bookmark = new MenuButton("");
 	//private String bookmarkName;
 	
-
+	
 
 	@Override
 	public void start(Stage stage) throws Exception 
@@ -46,9 +47,17 @@ public class Main extends Application {
 		engine.load(homePage);
 		urlBar.setText(homePage);
 
-		LoadFav();
+		EventHandler<ActionEvent> event1 = new EventHandler<ActionEvent>() {  //event เรียกเว็บจากบุ๊คมาค
+            public void handle(ActionEvent e)
+            {
+				engine.load(((MenuItem)e.getSource()).getText());
+				urlBar.setText(((MenuItem)e.getSource()).getText());
+            }
+        };
+
+		LoadFav(event1);
 		
-		bookmark.getItems().clear();// clear bookmarkItem	
+		//bookmark.getItems().clear();// clear bookmarkItem	
 
 		Image bookmarkIcon = new Image(getClass().getResource("icons/bookmark-new-symbolic.png").toExternalForm(), 20, 17, true, true);
 		Image bookmarkMenuIcon = new Image(getClass().getResource("icons/user-bookmarks-symbolic.png").toExternalForm(), 20, 17, true, true);
@@ -78,14 +87,6 @@ public class Main extends Application {
 			urlBar.textProperty().bind(engine.locationProperty());
 			urlBar.textProperty().unbindBidirectional(engine.locationProperty());;
 		});
-
-		EventHandler<ActionEvent> event1 = new EventHandler<ActionEvent>() {  //event เรียกเว็บจากบุ๊คมาค
-            public void handle(ActionEvent e)
-            {
-				engine.load(((MenuItem)e.getSource()).getText());
-				urlBar.setText(((MenuItem)e.getSource()).getText());
-            }
-        };
 
 
 		//MenuButton bookmark = new MenuButton("Bookmarks");
@@ -220,12 +221,11 @@ public class Main extends Application {
 
 	public static void Fav(String bookmarkURL) throws FileNotFoundException
 	{
-	
-		File file = new File("bookmarkPage.txt");
+		/*File file = new File("bookmarkPage.txt");
 
 		if (file.exists()) 
         {
-			System.out.println("File already exists");
+			System.out.println("File already exists");  			//old write file
 			//System.exit(0);
 		}
 		try 
@@ -236,10 +236,23 @@ public class Main extends Application {
         {
 			
 			output.println(bookmarkURL);
+		}*/
+		
+		String savestr = "bookmarkPage.txt"; 
+		File f = new File(savestr);
+
+		PrintWriter out = null;
+		if ( f.exists() && !f.isDirectory() ) {
+    		out = new PrintWriter(new FileOutputStream(new File(savestr), true));	//new write file
 		}
+		else {
+    		out = new PrintWriter(savestr);
+		}
+		out.append("\n"+bookmarkURL);
+		out.close();
 	}
 
-	public static void LoadFav() throws FileNotFoundException
+	public static void LoadFav(EventHandler<ActionEvent> event1) throws FileNotFoundException
 	{
 		try 
 		{
@@ -251,7 +264,7 @@ public class Main extends Application {
 				String line = (input.nextLine());
 				MenuItem bookmarkName = new MenuItem(line); 
 				bookmark.getItems().add(bookmarkName);
-
+				bookmarkName.setOnAction(event1);
 
 			}
             input.close();
