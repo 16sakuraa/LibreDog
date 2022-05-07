@@ -54,9 +54,10 @@ public class Main extends Application {
 				urlBar.setText(((MenuItem)e.getSource()).getText());
             }
         };
-
+		
 		LoadFav(event1);
 		
+
 		//bookmark.getItems().clear();// clear bookmarkItem	
 
 		Image bookmarkIcon = new Image(getClass().getResource("icons/bookmark-new-symbolic.png").toExternalForm(), 20, 17, true, true);
@@ -66,11 +67,11 @@ public class Main extends Application {
 		Image reloadIcon = new Image(getClass().getResource("icons/refresh-symbolic.png").toExternalForm(), 20, 17, true, true);
 
 		urlBar.setOnAction(e -> {
-			if(urlBar.getText().substring(urlBar.getText().length()-4,urlBar.getText().length()).compareTo(".com")!=0){
-				engine.load("https://"+urlBar.getText()+".com");
-				urlBar.setText("https://"+urlBar.getText()+".com");
+			if(urlBar.getText().substring(urlBar.getText().length()-4,urlBar.getText().length()).compareTo(".com")!=0||(urlBar.getText().length()<11)){
+				engine.load("https://duckduckgo.com/?q="+urlBar.getText());
+				urlBar.setText("https://duckduckgo.com/?q="+urlBar.getText());
 			}
-			else if((urlBar.getText().substring(0,8).compareTo("https://")==0)||(urlBar.getText().substring(0,7).compareTo("http://")==0)){
+			else if(((urlBar.getText().substring(0,8).compareTo("https://")==0)||(urlBar.getText().substring(0,7).compareTo("http://")==0))&&(urlBar.getText().substring(urlBar.getText().length()-4,urlBar.getText().length()).compareTo(".com")==0)){
 				engine.load(urlBar.getText());
 				urlBar.setText(urlBar.getText());
 			}
@@ -198,7 +199,8 @@ public class Main extends Application {
 		
 		Scene scene = new Scene(root, 3840, 2160);// 1080 720
 		stage.getIcons().add(new Image("icons/LibreDog.png"));
-		stage.setTitle("LibreDog");
+		//stage.setTitle("LibreDog");
+		stage.titleProperty().bind(myWebView.getEngine().titleProperty());	//set title ตามเว็บ
 		stage.setScene(scene);
 
 		stage.widthProperty().addListener((obs, oldVal, newVal) -> {  //rescale wifth when resize window
@@ -248,7 +250,7 @@ public class Main extends Application {
 		else {
     		out = new PrintWriter(savestr);
 		}
-		out.append("\n"+bookmarkURL);
+		out.append(bookmarkURL+"\n");
 		out.close();
 	}
 
@@ -265,7 +267,6 @@ public class Main extends Application {
 				MenuItem bookmarkName = new MenuItem(line); 
 				bookmark.getItems().add(bookmarkName);
 				bookmarkName.setOnAction(event1);
-
 			}
             input.close();
 		}
