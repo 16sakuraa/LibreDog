@@ -26,3 +26,10 @@ On Windows:
 ![VMArgs-Windows](src/images/vmargs-windows.png)
 
 4. Build the workspace and enjoy!
+
+## Meet the team
+
+- [64010543 พงศ์ภีระ วงศประสิทธิพร](https://github.com/SashaPGT)
+- [64010575 พัชรพล แก้วริพร](https://github.com/patcharapon411)
+- [64010823 วีรภัทร อินอุดม](https://github.com/NekoVari)
+- [964010860 ศุภพล อารีวัฒนวงศ์](https://github.com/16sakuraa)
