@@ -48,7 +48,7 @@ public class Main extends Application {
 
 		LoadFav();
 		
-		
+		bookmark.getItems().clear();// clear bookmarkItem	
 
 		Image bookmarkIcon = new Image(getClass().getResource("icons/bookmark-new-symbolic.png").toExternalForm(), 20, 17, true, true);
 		Image bookmarkMenuIcon = new Image(getClass().getResource("icons/user-bookmarks-symbolic.png").toExternalForm(), 20, 17, true, true);
@@ -57,19 +57,19 @@ public class Main extends Application {
 		Image reloadIcon = new Image(getClass().getResource("icons/refresh-symbolic.png").toExternalForm(), 20, 17, true, true);
 
 		urlBar.setOnAction(e -> {
-			if((urlBar.getText().substring(0,7)=="https://")||(urlBar.getText().substring(0,6)=="http://")){
-				engine.load(urlBar.getText());
-				urlBar.setText(urlBar.getText());
-			}
-			else if(urlBar.getText().substring(urlBar.getText().length()-4,urlBar.getText().length()).compareTo(".com")!=0){
+			if(urlBar.getText().substring(urlBar.getText().length()-4,urlBar.getText().length()).compareTo(".com")!=0){
 				engine.load("http://"+urlBar.getText()+".com");
 				urlBar.setText("http://"+urlBar.getText()+".com");
+			}
+			else if((urlBar.getText().substring(0,8).compareTo("https://")==0)||(urlBar.getText().substring(0,7).compareTo("http://")==0)){
+				engine.load(urlBar.getText());
+				urlBar.setText(urlBar.getText());
 			}
 			else{
 				engine.load("http://"+urlBar.getText());
 				urlBar.setText("http://"+urlBar.getText());
 			}
-			
+			System.out.println(urlBar.getText().substring(urlBar.getText().length()-4,urlBar.getText().length()));
 			});
 
 		//urlBar.textProperty().bind(engine.locationProperty()); // for detecting URL change - work perfectly but unable to type in url.
@@ -79,7 +79,13 @@ public class Main extends Application {
 			urlBar.textProperty().unbindBidirectional(engine.locationProperty());;
 		});
 
-		
+		EventHandler<ActionEvent> event1 = new EventHandler<ActionEvent>() {  //event เรียกเว็บจากบุ๊คมาค
+            public void handle(ActionEvent e)
+            {
+				engine.load(((MenuItem)e.getSource()).getText());
+				urlBar.setText(((MenuItem)e.getSource()).getText());
+            }
+        };
 
 
 		//MenuButton bookmark = new MenuButton("Bookmarks");
@@ -103,16 +109,19 @@ public class Main extends Application {
 					e.printStackTrace();
 				}
 
+				bookmarkName.setOnAction(event1);//ไว้เรียก url เมื่อกด
 
-				bookmarkName.setOnAction(new EventHandler<ActionEvent>() {
+
+				/*bookmarkName.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
 						
+						System.out.print(bookmarkName.getText());
 						urlBar.setText(bookmarkName.getText());
-						engine.load("http://"+urlBar.getText());    // load bookmark page on click
+						engine.load(bookmarkName.getText());    // load bookmark page on click
 						
 					}
-				});
+				});*/
 			}
 			
 		});
