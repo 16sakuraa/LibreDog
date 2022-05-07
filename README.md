@@ -2,6 +2,10 @@
 
 LibreDog is a web browser written in Java, utilizing the JavaFX platform. The browser is based on WebKit, that is an open source web browser engine that supports HTML5, JavaScript, CSS, DOM rendering and SVG graphics.
 
+## Screenshot
+
+![Screenshot](src/images/screenshot.png)
+
 ## Building
 
 Tested with Amazon Corretto 18 and JavaFX SDK 18.

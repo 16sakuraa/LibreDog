@@ -2,19 +2,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-import java.util.Optional;
 import java.util.Scanner;
-
-import javax.lang.model.element.Element;
-import javax.swing.text.Document;
-
-import org.w3c.dom.NodeList;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
@@ -38,7 +30,6 @@ public class Main extends Application {
 	private String homePage;
 	private WebHistory history;
 	static MenuButton bookmark = new MenuButton("");
-	//private String bookmarkName;
 	
 	
 
@@ -64,9 +55,6 @@ public class Main extends Application {
         };
 		
 		LoadFav(event1);
-		
-
-		//bookmark.getItems().clear();// clear bookmarkItem	
 
 		Image bookmarkIcon = new Image(getClass().getResource("icons/bookmark-new-symbolic.png").toExternalForm(), 20, 17, true, true);
 		Image bookmarkMenuIcon = new Image(getClass().getResource("icons/user-bookmarks-symbolic.png").toExternalForm(), 20, 17, true, true);
@@ -93,19 +81,14 @@ public class Main extends Application {
 				stage.setTitle(title);
 			}
 		});
-
-		//urlBar.textProperty().bind(engine.locationProperty()); // for detecting URL change - work perfectly but unable to type in url.
-
-		myWebView.setOnMouseClicked(e -> {  //solution 1 :when mouse click url change
+		myWebView.setOnMouseClicked(e -> {
 			urlBar.setText(engine.getLocation());
 			stage.setTitle(engine.getTitle()+" - LibreDog");
 		});
 
-
-		//MenuButton bookmark = new MenuButton("Bookmarks");
 		Button fav = new Button("");
 		fav.setGraphic(new ImageView(bookmarkIcon));
-		bookmark.setGraphic(new ImageView(bookmarkMenuIcon));// bookmark icon
+		bookmark.setGraphic(new ImageView(bookmarkMenuIcon));
 
 		fav.setOnAction(new EventHandler<ActionEvent>() {
 			
@@ -113,7 +96,7 @@ public class Main extends Application {
 			public void handle(ActionEvent event) 
 			{
 				MenuItem bookmarkName = new MenuItem(urlBar.getText());
-				bookmark.getItems().add(bookmarkName);					// add bookmark page to drop down menu
+				bookmark.getItems().add(bookmarkName);				
 				
 				
 				try {
@@ -123,19 +106,7 @@ public class Main extends Application {
 					e.printStackTrace();
 				}
 
-				bookmarkName.setOnAction(event1);//ไว้เรียก url เมื่อกด
-
-
-				/*bookmarkName.setOnAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent event) {
-						
-						System.out.print(bookmarkName.getText());
-						urlBar.setText(bookmarkName.getText());
-						engine.load(bookmarkName.getText());    // load bookmark page on click
-						
-					}
-				});*/
+				bookmarkName.setOnAction(event1);
 			}
 			
 		});
@@ -183,36 +154,22 @@ public class Main extends Application {
 
 		
 		engine.setUserAgent("Mozilla/99.0 (Linux; U; Android 7.0; en-us; Xoom Build/HRI39) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13");
-		//engine.setUserAgent("Mozilla/5.0 (Linux; U; Android 2.2.1; en-us; Nexus One Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");
-		
 		
 		VBox root = new VBox();
 
-		/*VBox.setMargin(urlBar , new Insets(10, 10, 10, 10));
-		VBox.setMargin(back , new Insets(0, 0, 10, 10));
-		VBox.setMargin(forward , new Insets(-35, 90, 10, 60));		// old button layout
-		VBox.setMargin(reload , new Insets(-35, 90, 10, 130));
-		VBox.setMargin(bookmark , new Insets(-35 , 90 , 10 , 850));
-		VBox.setMargin(fav ,  new Insets(-35 , 90 , 10 , 810)); */
-
-
-
 		VBox.setMargin(urlBar , new Insets(-56, 30, 30, 130));
 		VBox.setMargin(back , new Insets(10, 10, 10, 10));
-		VBox.setMargin(forward , new Insets(-36, 20, 30, 50));		// new button layout 
+		VBox.setMargin(forward , new Insets(-36, 20, 30, 50));
 		VBox.setMargin(reload , new Insets(-56, 20, 30, 90));
 
 		root.scaleYProperty();
-
-		//root.getChildren().addAll(urlBar , back, forward , reload , fav , bookmark , myWebView);
 		root.getChildren().addAll(back, forward , reload , urlBar, fav , bookmark , myWebView);
 
 		
 		
-		Scene scene = new Scene(root, 3840, 2160);// 1080 720
+		Scene scene = new Scene(root, 3840, 2160);
 		stage.getIcons().add(new Image("icons/LibreDog.png"));
 		stage.setTitle(engine.getTitle()+" - LibreDog");
-		//stage.titleProperty().bind(myWebView.getEngine().titleProperty());	//set title ตามเว็บ
 		stage.setScene(scene);
 
 		stage.widthProperty().addListener((obs, oldVal, newVal) -> {  //rescale wifth when resize window
@@ -235,22 +192,6 @@ public class Main extends Application {
 
 	public static void Fav(String bookmarkURL) throws FileNotFoundException
 	{
-		/*File file = new File("bookmarkPage.txt");
-
-		if (file.exists()) 
-        {
-			System.out.println("File already exists");  			//old write file
-			//System.exit(0);
-		}
-		try 
-		(
-	
-			PrintWriter output = new PrintWriter(file);
-		) 
-        {
-			
-			output.println(bookmarkURL);
-		}*/
 		
 		String savestr = "bookmarkPage.txt"; 
 		File f = new File(savestr);
