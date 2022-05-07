@@ -67,16 +67,16 @@ public class Main extends Application {
 
 		urlBar.setOnAction(e -> {
 			if(urlBar.getText().substring(urlBar.getText().length()-4,urlBar.getText().length()).compareTo(".com")!=0){
-				engine.load("http://"+urlBar.getText()+".com");
-				urlBar.setText("http://"+urlBar.getText()+".com");
+				engine.load("https://"+urlBar.getText()+".com");
+				urlBar.setText("https://"+urlBar.getText()+".com");
 			}
 			else if((urlBar.getText().substring(0,8).compareTo("https://")==0)||(urlBar.getText().substring(0,7).compareTo("http://")==0)){
 				engine.load(urlBar.getText());
 				urlBar.setText(urlBar.getText());
 			}
 			else{
-				engine.load("http://"+urlBar.getText());
-				urlBar.setText("http://"+urlBar.getText());
+				engine.load("https://"+urlBar.getText());
+				urlBar.setText("https://"+urlBar.getText());
 			}
 			System.out.println(urlBar.getText().substring(urlBar.getText().length()-4,urlBar.getText().length()));
 			});
