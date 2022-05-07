@@ -2,11 +2,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.util.Optional;
 import java.util.Scanner;
+
+import javax.lang.model.element.Element;
+import javax.swing.text.Document;
+
+import org.w3c.dom.NodeList;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
@@ -67,26 +75,30 @@ public class Main extends Application {
 		Image reloadIcon = new Image(getClass().getResource("icons/refresh-symbolic.png").toExternalForm(), 20, 17, true, true);
 
 		urlBar.setOnAction(e -> {
-			if(urlBar.getText().substring(urlBar.getText().length()-4,urlBar.getText().length()).compareTo(".com")!=0||(urlBar.getText().length()<11)){
-				engine.load("https://duckduckgo.com/?q="+urlBar.getText());
-				urlBar.setText("https://duckduckgo.com/?q="+urlBar.getText());
-			}
-			else if(((urlBar.getText().substring(0,8).compareTo("https://")==0)||(urlBar.getText().substring(0,7).compareTo("http://")==0))&&(urlBar.getText().substring(urlBar.getText().length()-4,urlBar.getText().length()).compareTo(".com")==0)){
+			String title = engine.getTitle()+" - LibreDog";
+			
+			if(urlBar.getText().length()> 11 &&(((urlBar.getText().substring(0,8).compareTo("https://")==0)||(urlBar.getText().substring(0,7).compareTo("http://")==0))&&(urlBar.getText().substring(urlBar.getText().length()-4,urlBar.getText().length()).compareTo(".com")==0||urlBar.getText().substring(urlBar.getText().length()-1,urlBar.getText().length()).compareTo("/")==0))){
 				engine.load(urlBar.getText());
 				urlBar.setText(urlBar.getText());
+				stage.setTitle(title);
 			}
-			else{
+			else if(urlBar.getText().substring(urlBar.getText().length()-4,urlBar.getText().length()).compareTo(".com")==0&&urlBar.getText().length()>3){
 				engine.load("https://"+urlBar.getText());
 				urlBar.setText("https://"+urlBar.getText());
+				stage.setTitle(title);
 			}
-			System.out.println(urlBar.getText().substring(urlBar.getText().length()-4,urlBar.getText().length()));
-			});
+			else{
+				engine.load("https://duckduckgo.com/?q="+urlBar.getText());
+				urlBar.setText("https://duckduckgo.com/?q="+urlBar.getText());
+				stage.setTitle(title);
+			}
+		});
 
 		//urlBar.textProperty().bind(engine.locationProperty()); // for detecting URL change - work perfectly but unable to type in url.
 
 		myWebView.setOnMouseClicked(e -> {  //solution 1 :when mouse click url change
-			urlBar.textProperty().bind(engine.locationProperty());
-			urlBar.textProperty().unbindBidirectional(engine.locationProperty());;
+			urlBar.setText(engine.getLocation());
+			stage.setTitle(engine.getTitle()+" - LibreDog");
 		});
 
 
@@ -199,8 +211,8 @@ public class Main extends Application {
 		
 		Scene scene = new Scene(root, 3840, 2160);// 1080 720
 		stage.getIcons().add(new Image("icons/LibreDog.png"));
-		//stage.setTitle("LibreDog");
-		stage.titleProperty().bind(myWebView.getEngine().titleProperty());	//set title ตามเว็บ
+		stage.setTitle(engine.getTitle()+" - LibreDog");
+		//stage.titleProperty().bind(myWebView.getEngine().titleProperty());	//set title ตามเว็บ
 		stage.setScene(scene);
 
 		stage.widthProperty().addListener((obs, oldVal, newVal) -> {  //rescale wifth when resize window
