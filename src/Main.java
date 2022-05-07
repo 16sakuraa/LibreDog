@@ -43,7 +43,7 @@ public class Main extends Application {
 
 		TextField urlBar = new TextField();
 		urlBar.setPrefWidth(300.00);
-		homePage = "http://www.duckduckgo.com";
+		homePage = "https://www.duckduckgo.com";
 		engine.load(homePage);
 		urlBar.setText(homePage);
 
@@ -271,7 +271,7 @@ public class Main extends Application {
 		}
 		catch (FileNotFoundException e) 
 		{
-			System.out.println("wrong file path!!!");
+			System.out.println("Bookmark file not found in default path, will create a new bookmark file.");
 			
 		}
 	}
